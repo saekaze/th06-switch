@@ -40,7 +40,7 @@ Built upon the cross-platform decompilation engine [GensokyoClub/th06](https://g
        ├── MD.DAT            # MIDI/Music data (or 紅魔郷MD.DAT)
        ├── ST.DAT            # Stage data (or 紅魔郷ST.DAT)
        ├── TL.DAT            # Title screen data (or 紅魔郷TL.DAT)
-       └── msgothic.ttc      # Japanese font (optional)
+       └── msgothic.ttc      # Japanese font 
    ```
    *(Note: Whether your files are named with full Japanese characters `紅魔郷CM.DAT` or stripped ASCII `CM.DAT`, the engine will locate and load them automatically).*
 
