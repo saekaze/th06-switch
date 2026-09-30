@@ -242,6 +242,19 @@ ChainCallbackResult MainMenu::OnUpdate(MainMenu *menu)
                 switch (menu->cursor)
                 {
                 case 9:
+#ifdef __SWITCH__
+                    // Switch port: "Default" restores the port's layout (B shot,
+                    // A bomb, L/ZL focus, + pause, R/ZR skip, d-pad moves).
+                    mappingData.shootButton = SDL_CONTROLLER_BUTTON_A;
+                    mappingData.bombButton = SDL_CONTROLLER_BUTTON_B;
+                    mappingData.focusButton = SDL_CONTROLLER_BUTTON_LEFTSHOULDER;
+                    mappingData.menuButton = SDL_CONTROLLER_BUTTON_START;
+                    mappingData.upButton = SDL_CONTROLLER_BUTTON_DPAD_UP;
+                    mappingData.downButton = SDL_CONTROLLER_BUTTON_DPAD_DOWN;
+                    mappingData.leftButton = SDL_CONTROLLER_BUTTON_DPAD_LEFT;
+                    mappingData.rightButton = SDL_CONTROLLER_BUTTON_DPAD_RIGHT;
+                    mappingData.skipButton = SDL_CONTROLLER_BUTTON_RIGHTSHOULDER;
+#else
                     mappingData.shootButton = 0;
                     mappingData.bombButton = 1;
                     mappingData.focusButton = 0;
@@ -251,6 +264,7 @@ ChainCallbackResult MainMenu::OnUpdate(MainMenu *menu)
                     mappingData.leftButton = 0xffff;
                     mappingData.rightButton = 0xffff;
                     mappingData.skipButton = 0xffff;
+#endif
                     memcpy(menu->controlMapping, &mappingData, sizeof(ControllerMapping));
                     break;
                 case 10:

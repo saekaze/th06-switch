@@ -15,7 +15,8 @@ Built upon the cross-platform decompilation engine [GensokyoClub/th06](https://g
 
 * 🌏 **Proper name in hbmenu:** shows `東方紅魔郷　～ the Embodiment of Scarlet Devil` on consoles set to 日本語 and `Touhou 6: the Embodiment of Scarlet Devil` everywhere else, with **ZUN / Team Shanghai Alice** as the author — like the other Touhou ports.
 * 📁 **One folder for all Touhou ports:** the game can now live in `sd:/switch/touhou/touhou6/` (recommended), next to the other ports. The NRO's own folder is always checked first, so your current setup keeps working.
-* Nothing in the game itself changed.
+* 🎮 **Controls like the other Touhou ports:** ZL/ZR now act as L/R, Key Config's **Default** restores the Switch layout (it used to reset to the PC one, with no pause button), and the D-Pad keeps moving whatever you rebind. The default layout is the same as every other port (B shoot, A bomb, L/ZL focus, R/ZR skip, + pause); the D-Pad and sticks only move.
+* Gameplay itself is unchanged.
 
 ---
 
@@ -24,7 +25,7 @@ Built upon the cross-platform decompilation engine [GensokyoClub/th06](https://g
 * 🚀 **Full 60 FPS Performance:** Smooth, rock-solid 60 FPS danmaku gameplay across all Nintendo Switch models (V1 Erista, V2 Mariko, Switch Lite, Switch OLED) running natively on Horizon OS—no Linux, Box64, or Wine required.
 * 🦇 **Embedded Official Artwork:** Features the classic 2002 CD release cover silhouette embedded directly within the `.nro` asset header for seamless display in Homebrew Menu, Sphaira, and custom home screen forwarders.
 * 🖥 **OLED-Optimized Widescreen Scaling:** Automatically scales the original 640x480 gameplay viewport centered inside the Switch's native 1280x720 display. Double-buffered hardware scissor testing (`GL_SCISSOR_TEST`) guarantees that the 16:9 side pillarboxes remain 100% pure black (`#000000`), preserving contrast and extending battery life on OLED screens.
-* 🎮 **Native Controller Support:** Seamless out-of-the-box mapping for Joy-Con (Handheld, Grip, or detached) and Nintendo Switch Pro Controllers via SDL2 GameController API, complete with slow-motion focus mode (`L`/`R`/`ZL`/`ZR`) and menu navigation.
+* 🎮 **Sane, Remappable Controls:** Joy-Con (handheld, grip, detached) and Pro Controller with the same default layout as every other Touhou Switch port (B shoot, A bomb, L/ZL focus, R/ZR skip, + pause); the in-game **Key Config** can rebind them.
 * 🧠 **Defensive Smart Filename Resolver:** FAT32/ExFAT filesystems on Switch often reject Japanese Shift-JIS / UTF-8 characters (`東方紅魔郷.cfg`), and Windows extraction tools frequently strip non-ASCII prefixes from filenames (`紅魔郷CM.DAT` → `CM.DAT`). The engine includes a low-level filesystem interceptor that automatically locates and resolves stripped ASCII filenames (`CM.DAT`, `MD.DAT`, `.cfg`, `th06.cfg`) transparently.
 * 🎵 **Lossless Audio & BGM Support:** Full support for sound effects (`CM.DAT`) and lossless WAV background music playback (`bgm/` folder).
 
@@ -71,10 +72,13 @@ Run `touhou6.nro` from the **Homebrew Menu (hbmenu)**, **Sphaira launcher**, or 
 | Nintendo Switch Button | Action |
 | :--- | :--- |
 | **Left Stick / D-Pad** | Character Movement |
-| **A** *(or B)* | Shoot / Confirm |
-| **B** *(or A)* | Bomb / Cancel |
-| **L / R / ZL / ZR** | Focus (Precision Slow-Motion Movement) |
+| **B** | Shoot / Confirm |
+| **A** | Bomb / Cancel |
+| **L / ZL** | Focus (Precision Slow-Motion Movement) |
+| **R / ZR** | Skip Dialogue (hold) |
 | **+ (Plus)** | Pause / In-Game Menu |
+
+**The same default layout in every Touhou Switch port:** B shoots, A bombs, L/ZL focuses, R/ZR skips dialogue, + pauses. These are only defaults — the Switch buttons act as the game's own gamepad, so the in-game **Key Config** can rebind them, and **Default** there brings this layout back. The D-Pad and sticks only move — they can never be picked as a button. Key Config numbers: 0 B, 1 A, 2 Y, 3 X, 6 +, 9 L/ZL, 10 R/ZR.
 
 ---
 

@@ -109,6 +109,16 @@ u16 Controller::GetControllerInput(u16 buttons)
                                       g_Supervisor.gameController);
         SetButtonFromControllerInputs(&buttons, g_Supervisor.cfg.controllerMapping.skipButton, TH_BUTTON_SKIP,
                                       g_Supervisor.gameController);
+#ifdef __SWITCH__
+        // The d-pad always moves, whatever Key Config assigned.
+        SetButtonFromControllerInputs(&buttons, SDL_CONTROLLER_BUTTON_DPAD_UP, TH_BUTTON_UP, g_Supervisor.gameController);
+        SetButtonFromControllerInputs(&buttons, SDL_CONTROLLER_BUTTON_DPAD_DOWN, TH_BUTTON_DOWN,
+                                      g_Supervisor.gameController);
+        SetButtonFromControllerInputs(&buttons, SDL_CONTROLLER_BUTTON_DPAD_LEFT, TH_BUTTON_LEFT,
+                                      g_Supervisor.gameController);
+        SetButtonFromControllerInputs(&buttons, SDL_CONTROLLER_BUTTON_DPAD_RIGHT, TH_BUTTON_RIGHT,
+                                      g_Supervisor.gameController);
+#endif
 
         if (SDL_GameControllerHasAxis(g_Supervisor.gameController, SDL_CONTROLLER_AXIS_LEFTX) &&
             SDL_GameControllerHasAxis(g_Supervisor.gameController, SDL_CONTROLLER_AXIS_LEFTY))
@@ -262,6 +272,39 @@ u32 Controller::SetButtonFromDirectInputJoystate(u16 *outButtons, i16 controller
     return inputButtons[controllerButtonToTest] & 0x80 ? touhouButton & 0xFFFF : 0;
 }
 
+#ifdef __SWITCH__
+// Switch port: ZL / ZR are analog triggers to SDL; they act as L / R, so
+// "L/ZL" and "R/ZR" are one button each (like the other Touhou ports).
+static bool SwitchButtonDown(SDL_GameController *controller, int button)
+{
+    if (SDL_GameControllerGetButton(controller, (SDL_GameControllerButton)button))
+        return true;
+    if (button == SDL_CONTROLLER_BUTTON_LEFTSHOULDER)
+        return SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERLEFT) > 16000;
+    if (button == SDL_CONTROLLER_BUTTON_RIGHTSHOULDER)
+        return SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 16000;
+    return false;
+}
+// Buttons Key Config can pick: B, A, Y, X, +, L/ZL, R/ZR. The d-pad and sticks
+// (clicks included) only move and are never assignable.
+static bool SwitchAssignable(int button)
+{
+    switch (button)
+    {
+    case SDL_CONTROLLER_BUTTON_A:
+    case SDL_CONTROLLER_BUTTON_B:
+    case SDL_CONTROLLER_BUTTON_X:
+    case SDL_CONTROLLER_BUTTON_Y:
+    case SDL_CONTROLLER_BUTTON_START:
+    case SDL_CONTROLLER_BUTTON_LEFTSHOULDER:
+    case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER:
+        return true;
+    default:
+        return false;
+    }
+}
+#endif
+
 u32 Controller::SetButtonFromControllerInputs(u16 *outButtons, i16 controllerButtonToTest,
                                               enum TouhouButton touhouButton, SDL_GameController *controller)
 {
@@ -272,7 +315,11 @@ u32 Controller::SetButtonFromControllerInputs(u16 *outButtons, i16 controllerBut
         return 0;
     }
 
+#ifdef __SWITCH__
+    pressed = SwitchButtonDown(controller, controllerButtonToTest);
+#else
     pressed = SDL_GameControllerGetButton(controller, (SDL_GameControllerButton)controllerButtonToTest);
+#endif
 
     *outButtons |= pressed ? touhouButton & 0xFFFF : 0;
 
@@ -300,7 +347,11 @@ const u8 *Controller::GetControllerState()
 
         for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; i++)
         {
+#ifdef __SWITCH__
+            if (SwitchAssignable(i) && SwitchButtonDown(g_Supervisor.gameController, i))
+#else
             if (SDL_GameControllerGetButton(g_Supervisor.gameController, (SDL_GameControllerButton)i))
+#endif
             {
                 g_ControllerData[i] = 0x80;
             }
