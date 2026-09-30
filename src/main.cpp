@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     (void)argv;
 
 #ifdef __SWITCH__
-    PlatformSwitch::Init();
+    PlatformSwitch::Init(argc, argv);
 #endif
 
     i32 renderResult = 0;

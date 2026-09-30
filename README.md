@@ -11,6 +11,14 @@ Built upon the cross-platform decompilation engine [GensokyoClub/th06](https://g
 
 ---
 
+## 🆕 What's New (September 2026 update)
+
+* 🌏 **Proper name in hbmenu:** shows `東方紅魔郷　～ the Embodiment of Scarlet Devil` on consoles set to 日本語 and `Touhou 6: the Embodiment of Scarlet Devil` everywhere else, with **ZUN / Team Shanghai Alice** as the author — like the other Touhou ports.
+* 📁 **One folder for all Touhou ports:** the game can now live in `sd:/switch/touhou/touhou6/` (recommended), next to the other ports. The NRO's own folder is always checked first, so your current setup keeps working.
+* Nothing in the game itself changed.
+
+---
+
 ## ✨ Key Features
 
 * 🚀 **Full 60 FPS Performance:** Smooth, rock-solid 60 FPS danmaku gameplay across all Nintendo Switch models (V1 Erista, V2 Mariko, Switch Lite, Switch OLED) running natively on Horizon OS—no Linux, Box64, or Wine required.
@@ -29,10 +37,10 @@ Built upon the cross-platform decompilation engine [GensokyoClub/th06](https://g
 ### 1. SD Card File Structure
 1. Ensure your Nintendo Switch is running custom firmware (Atmosphère CFW).
 2. Download the latest `touhou6.nro` from the [Releases](../../releases) tab (or build from source).
-3. Create a folder named `sd:/touhou6/` on your SD card and copy `touhou6.nro` into it.
+3. Create the folder `sd:/switch/touhou/touhou6/` on your SD card and copy `touhou6.nro` into it.
 4. Copy the data archives from your legitimate Touhou 6 PC folder directly into the same directory:
    ```text
-   sd:/touhou6/
+   sd:/switch/touhou/touhou6/
        ├── touhou6.nro       # Nintendo Switch homebrew executable
        ├── CM.DAT            # Game data (or 紅魔郷CM.DAT)
        ├── ED.DAT            # Endings data (or 紅魔郷ED.DAT)
@@ -44,10 +52,12 @@ Built upon the cross-platform decompilation engine [GensokyoClub/th06](https://g
    ```
    *(Note: Whether your files are named with full Japanese characters `紅魔郷CM.DAT` or stripped ASCII `CM.DAT`, the engine will locate and load them automatically).*
 
+   **Recommended place: `sd:/switch/touhou/touhou6/`.** Keeping every Touhou port in one `sd:/switch/touhou/` folder (`touhou6`, `touhou7`, `touhou8` …) is much tidier than a separate folder per game. Other places still work: the port first looks in its own folder (wherever the NRO is), then for a `th06` / `touhou6` folder (any capitalisation) directly on the SD card, in `switch/`, `touhou/`, `switch/touhou/`, `games/` or `roms/` — so older layouts keep working.
+
 ### 2. Enabling Background Music (BGM)
 Because Horizon OS lacks a system MIDI synthesizer, Touhou 6 plays background music on the Switch via ZUN's official WAV music mode:
 1. Locate or download the standard *Touhou 6 EoSD WAV BGM / Lossless Soundtrack Pack*.
-2. Create a folder named `bgm` inside your game directory (`sd:/touhou6/bgm/`).
+2. Create a folder named `bgm` inside your game directory (`sd:/switch/touhou/touhou6/bgm/`).
 3. Place all soundtrack WAV files (`th06_01.wav` through `th06_17.wav`) along with their loop point definition files (`*.pos`) inside `bgm/`.
 4. Launch the game. The engine will automatically detect `bgm/th06_01.wav`, configure `musicMode` to WAV, and play full soundtrack audio. *(If needed, navigate to Options -> BGM inside the game menu and set it to **WAV**).*
 

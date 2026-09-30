@@ -16,8 +16,8 @@ SOURCES     := src src/graphics src/pbg3 src/thirdparty src/midi platform/switch
 DATA        := data
 INCLUDES    := src src/graphics src/pbg3 src/thirdparty src/midi platform/switch
 ROMFS       := romfs
-APP_TITLE   := Touhou6EoSD
-APP_AUTHOR  := GensokyoClub
+APP_TITLE   := Touhou 6: the Embodiment of Scarlet Devil
+APP_AUTHOR  := ZUN / Team Shanghai Alice
 APP_VERSION := 1.02h
 ICON        := icon.jpg
 
@@ -126,6 +126,16 @@ all     : $(OUTPUT).nro
 
 $(OUTPUT).nro   :   $(OUTPUT).elf $(OUTPUT).nacp
 $(OUTPUT).elf   :   $(OFILES)
+
+# hbmenu title: romanised in every language slot, the original Japanese
+# title in the Japanese slot only (same as th07/th08/th10-switch).
+$(OUTPUT).nacp  :   $(MAKEFILE_LIST) $(TOPDIR)/scripts/nacp_lang.py
+	@nacptool --create "$(APP_TITLE)" "$(APP_AUTHOR)" "$(APP_VERSION)" $@.base $(NACPFLAGS)
+	@python3 $(TOPDIR)/scripts/nacp_lang.py $@.base $@ --lang Japanese \
+		--name "東方紅魔郷　～ the Embodiment of Scarlet Devil" --author "上海アリス幻樂団" \
+		--fill-empty-name "$(APP_TITLE)" --fill-empty-author "$(APP_AUTHOR)"
+	@rm -f $@.base
+	@echo built ... $(notdir $@)
 
 $(OFILES_SRC)   :   $(HFILES_BIN)
 
